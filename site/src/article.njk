@@ -1,0 +1,86 @@
+---
+pagination:
+  data: cms.articles # Pulls from our cms.js data file
+  size: 1            # Process one article per page
+  alias: article     # Call the current item 'article'
+permalink: "/articles/{{ article.relatedGear[0].slug }}/{{ article.title | slugify }}/index.html"
+layout: base.njk
+---
+
+<!-- Set variables for the base.njk header metadata -->
+{% set title = article.title %}
+{% set requiredGear = article.relatedGear[0].slug %}
+{% set isFree = article.isFree %}
+
+<article>
+  <h1>{{ article.title }}</h1>
+  
+  <div class="metadata">
+    <span>Gear: {{ article.relatedGear[0].name }}</span>
+    {% if article.isFree %}
+      <span class="badge free">Free Tutorial</span>
+    {% endif %}
+  </div>
+
+  <!-- The Version Selector Dropdown -->
+  {% if article.versions | length > 1 %}
+    <div class="version-controls">
+      <label for="version-select">Software Version:</label>
+      <select id="version-select" onchange="switchVersion(this.value)">
+        {% for version in article.versions %}
+          <option value="version-{{ loop.index }}">{{ version.versionName }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  {% endif %}
+
+  <!-- The Content Render -->
+  <div id="article-body">
+    {% for version in article.versions %}
+      
+      <div 
+        class="version-content" 
+        id="version-{{ loop.index }}" 
+        style="display: {% if loop.first %}block{% else %}none{% endif %};"
+      >
+        
+        <!-- Loop through Payload Blocks -->
+        {% for block in version.content %}
+          
+          <!-- Standard Rich Text -->
+          {% if block.blockType == 'content' %}
+            <div class="prose">
+              {{ block.richText_html | safe }}
+            </div>
+          {% endif %}
+
+          <!-- Custom Vanilla HTML / JS Widget -->
+          {% if block.blockType == 'customHTML' %}
+            <div class="interactive-widget">
+              {{ block.htmlCode | safe }}
+              
+              {% if block.clientJS %}
+                <!-- Load the custom JS only when this block exists -->
+                <script src="{{ block.clientJS }}"></script>
+              {% endif %}
+            </div>
+          {% endif %}
+
+        {% endfor %}
+      </div>
+
+    {% endfor %}
+  </div>
+</article>
+
+<!-- Vanilla JS for the Version Switcher -->
+<script>
+  function switchVersion(targetId) {
+    // Hide all versions
+    document.querySelectorAll('.version-content').forEach(el => {
+      el.style.display = 'none';
+    });
+    // Show the selected version
+    document.getElementById(targetId).style.display = 'block';
+  }
+</script>

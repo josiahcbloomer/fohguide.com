@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> | FOHGuide.com</title>
+  <link rel="stylesheet" href="/assets/css/style.css">
+  
+  <!-- This is the secret metadata our Cloudflare Middleware will read -->
+  
+  
+</head>
+<body>
+  
+  <header>
+    <nav>
+      <a href="/">Home</a>
+      <!-- You can loop through gear dynamically here later -->
+    </nav>
+  </header>
+
+  <main>
+    
+<!-- Set variables for the base.njk header metadata -->
+
+
+
+
+<article>
+  <h1>Layers Test</h1>
+  
+  <div class="metadata">
+    <span>Gear: ProPresenter 7</span>
+    
+  </div>
+
+  <!-- The Version Selector Dropdown -->
+  
+
+  <!-- The Content Render -->
+  <div id="article-body">
+    
+      
+      <div 
+        class="version-content" 
+        id="version-1" 
+        style="display: block;"
+      >
+        
+        <!-- Loop through Payload Blocks -->
+        
+          
+          <!-- Standard Rich Text -->
+          
+            <div class="prose">
+              <div class="payload-richtext"><h1>Hello</h1><p>This is a big test</p><p>yeah I think it is</p><p>next thing<br />smaller line breaK?</p><p>bigger cheese</p></div>
+            </div>
+          
+
+          <!-- Custom Vanilla HTML / JS Widget -->
+          
+
+        
+      </div>
+
+    
+  </div>
+</article>
+
+<!-- Vanilla JS for the Version Switcher -->
+<script>
+  function switchVersion(targetId) {
+    // Hide all versions
+    document.querySelectorAll('.version-content').forEach(el => {
+      el.style.display = 'none';
+    });
+    // Show the selected version
+    document.getElementById(targetId).style.display = 'block';
+  }
+</script>
+  </main>
+
+</body>
+</html>

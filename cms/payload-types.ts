@@ -234,9 +234,6 @@ export interface Article {
               blockType: 'customHTML';
             }
           | {
-              /**
-               * Use this for headings, paragraphs, lists, and images.
-               */
               richText: {
                 root: {
                   type: string;
@@ -252,6 +249,7 @@ export interface Article {
                 };
                 [k: string]: unknown;
               };
+              richText_html?: string | null;
               id?: string | null;
               blockName?: string | null;
               blockType: 'content';
@@ -455,6 +453,7 @@ export interface ArticlesSelect<T extends boolean = true> {
                 | T
                 | {
                     richText?: T;
+                    richText_html?: T;
                     id?: T;
                     blockName?: T;
                   };
