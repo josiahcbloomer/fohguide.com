@@ -1,10 +1,13 @@
 export const Gear = {
   slug: 'gear',
-  admin: {
-    useAsTitle: 'name',
-  },
+  admin: { useAsTitle: 'name' },
   access: {
-    read: () => true,
+    // The public API (Eleventy) needs to read this during build
+    read: () => true, 
+    // Only admins can add, edit, or delete Gear
+    create: ({ req: { user } }) => user?.role === 'admin',
+    update: ({ req: { user } }) => user?.role === 'admin',
+    delete: ({ req: { user } }) => user?.role === 'admin',
   },
   fields: [
     {

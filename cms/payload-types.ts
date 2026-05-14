@@ -131,6 +131,11 @@ export interface UserAuthOperations {
  */
 export interface User {
   id: number;
+  role: 'admin' | 'editor';
+  /**
+   * Which gear can this user manage articles for?
+   */
+  gearAccess?: (number | Gear)[] | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -152,6 +157,34 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "gear".
+ */
+export interface Gear {
+  id: number;
+  name: string;
+  manufacturer?: string | null;
+  slug: string;
+  /**
+   * The ID from Stripe used to unlock this gear category
+   */
+  stripeProductID?: string | null;
+  tags?: (number | Tag)[] | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tags".
+ */
+export interface Tag {
+  id: number;
+  name: string;
+  slug: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
  */
 export interface Media {
@@ -168,34 +201,6 @@ export interface Media {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "tags".
- */
-export interface Tag {
-  id: number;
-  name: string;
-  slug: string;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "gear".
- */
-export interface Gear {
-  id: number;
-  name: string;
-  manufacturer?: string | null;
-  slug: string;
-  /**
-   * The ID from Stripe used to unlock this gear category
-   */
-  stripeProductID?: string | null;
-  tags?: (number | Tag)[] | null;
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -356,6 +361,8 @@ export interface PayloadMigration {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
+  role?: T;
+  gearAccess?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
