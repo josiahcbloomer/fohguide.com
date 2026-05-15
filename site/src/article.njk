@@ -5,12 +5,13 @@ pagination:
   alias: article     # Call the current item 'article'
 permalink: "/articles/{{ article.relatedGear[0].slug }}/{{ article.title | slugify }}/index.html"
 layout: base.njk
+isArticle: true
+eleventyComputed:
+  title: "{{ article.title }}"
+  requiredGear: "{{ article.relatedGear[0].slug }}"
+  isFree: "{{ article.isFree }}"
+  isArticle: true
 ---
-
-<!-- Set variables for the base.njk header metadata -->
-{% set title = article.title %}
-{% set requiredGear = article.relatedGear[0].slug %}
-{% set isFree = article.isFree %}
 
 <article>
   <h1>{{ article.title }}</h1>
